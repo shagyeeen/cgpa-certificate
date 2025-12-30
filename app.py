@@ -54,13 +54,13 @@ def extract_student_details(text):
     return name, reg
 
 def extract_subjects(text):
-    pattern = r"([A-Z]{2}\d{3})\s+([A-Za-z0-9 &()\-]+?)\s+(\d)\s+([OABC][+]?)"
+    pattern = r"([A-Z0-9]{5,7})\s+([A-Za-z0-9 +().,:/\-]+?)\s+(\d)\s+([OABC][+]?)"
     matches = re.findall(pattern, text)
 
     subjects = []
     for code, name, credit, grade in matches:
         subjects.append({
-            "code": code,
+            "code": code[-5:],  # keeps AS101, CS101 etc
             "name": name.strip(),
             "credit": int(credit),
             "grade": grade
@@ -223,4 +223,4 @@ def generate():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run()
